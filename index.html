@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Proposal cho hệ thống quản lý quy trình kiểm thử phần mềm: Requirement → Test Design → Test Execution → Defect → Regression → Release Decision." />
+  <meta name="theme-color" content="#f3f0e9" />
+  <title>TRACE / QA — Testing Workflow Proposal</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="TRACE QA">
+      <span class="brand-mark">T/Q</span>
+      <span class="brand-copy">
+        <strong>TRACE / QA</strong>
+        <small>testing workflow proposal</small>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Điều hướng chính">
+      <a href="#problem">Vấn đề</a>
+      <a href="#workflow">Luồng công việc</a>
+      <a href="#scope">Phạm vi</a>
+      <a href="#outcome">Giá trị</a>
+    </nav>
+
+    <a class="header-cta" href="#proposal">Xem proposal <span aria-hidden="true">↘</span></a>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span>Graduation Project Proposal</span>
+          <span>2026</span>
+        </div>
+
+        <h1>
+          Một luồng kiểm thử
+          <span>có thể truy vết.</span>
+        </h1>
+
+        <p class="hero-lead">
+          Hệ thống hỗ trợ QA/QC quản lý quá trình kiểm thử chức năng của một phiên bản phần mềm —
+          từ requirement, test case và test run đến defect, regression và quyết định release.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#workflow">Xem workflow</a>
+          <a class="text-link" href="#scope">Tại sao không làm “mọi loại testing”? <span>→</span></a>
+        </div>
+
+        <dl class="hero-meta" aria-label="Định vị đề tài">
+          <div>
+            <dt>Primary users</dt>
+            <dd>QA / QC · QA Lead</dd>
+          </div>
+          <div>
+            <dt>Core testing</dt>
+            <dd>Functional · Regression</dd>
+          </div>
+          <div>
+            <dt>Execution</dt>
+            <dd>Manual + Automated</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="hero-visual" aria-label="Minh họa luồng kiểm thử">
+        <div class="release-head">
+          <div>
+            <span class="micro-label">Current release</span>
+            <strong>Release 2.1</strong>
+          </div>
+          <span class="status-dot"><i></i> Testing</span>
+        </div>
+
+        <div class="trace-map">
+          <div class="trace-line" aria-hidden="true"></div>
+
+          <article class="trace-node node-requirement">
+            <span class="node-index">01</span>
+            <div>
+              <small>Requirement</small>
+              <strong>FR-12 · Visa payment</strong>
+            </div>
+            <span class="node-count">6 cases</span>
+          </article>
+
+          <article class="trace-node node-testcase">
+            <span class="node-index">02</span>
+            <div>
+              <small>Test case</small>
+              <strong>TC-1204 · Insufficient balance</strong>
+            </div>
+            <span class="pill pill-fail">Failed</span>
+          </article>
+
+          <article class="trace-node node-defect">
+            <span class="node-index">03</span>
+            <div>
+              <small>Defect</small>
+              <strong>BUG-183 · Payment still succeeds</strong>
+            </div>
+            <span class="pill pill-critical">Critical</span>
+          </article>
+
+          <article class="trace-node node-retest">
+            <span class="node-index">04</span>
+            <div>
+              <small>Retest</small>
+              <strong>Waiting for build 2.1.4</strong>
+            </div>
+            <span class="pill pill-wait">Pending</span>
+          </article>
+        </div>
+
+        <div class="release-footer">
+          <div>
+            <span>Coverage</span>
+            <strong>100%</strong>
+          </div>
+          <div>
+            <span>Passed</span>
+            <strong>4 / 6</strong>
+          </div>
+          <div>
+            <span>Open critical</span>
+            <strong>1</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement" id="problem">
+      <div class="section-kicker">
+        <span>01</span>
+        <p>Vấn đề cần giải quyết</p>
+      </div>
+
+      <div class="statement-grid">
+        <h2>Tester không thiếu công cụ. Họ thiếu một <em>mạch liên kết</em> giữa các công cụ.</h2>
+        <div class="statement-copy">
+          <p>
+            Trong một team nhỏ, requirement có thể nằm ở Jira, test case ở Google Sheets,
+            evidence ở Drive, bug ở một tracker khác và trao đổi lại nằm trong Slack hoặc Teams.
+          </p>
+          <p>
+            Khi dữ liệu bị tách rời, những câu hỏi đơn giản như “requirement nào chưa test?”,
+            “bug này xuất phát từ test case nào?” hay “release đã đủ điều kiện sign-off chưa?”
+            trở thành công việc đối chiếu thủ công.
+          </p>
+        </div>
+      </div>
+
+      <div class="fragmented-flow" aria-label="Công cụ bị phân tán">
+        <div class="fragment">
+          <span>01</span>
+          <strong>Requirement</strong>
+          <small>Issue tracker</small>
+        </div>
+        <div class="fragment-arrow">→</div>
+        <div class="fragment">
+          <span>02</span>
+          <strong>Test cases</strong>
+          <small>Spreadsheet</small>
+        </div>
+        <div class="fragment-arrow">→</div>
+        <div class="fragment">
+          <span>03</span>
+          <strong>Evidence</strong>
+          <small>Cloud drive</small>
+        </div>
+        <div class="fragment-arrow">→</div>
+        <div class="fragment">
+          <span>04</span>
+          <strong>Defects</strong>
+          <small>Issue tracker</small>
+        </div>
+        <div class="fragment-arrow">→</div>
+        <div class="fragment">
+          <span>05</span>
+          <strong>Report</strong>
+          <small>Manual summary</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="workflow-section" id="workflow">
+      <div class="section-kicker inverted">
+        <span>02</span>
+        <p>Công việc cụ thể hệ thống hỗ trợ</p>
+      </div>
+
+      <div class="workflow-head">
+        <h2>Từ lúc Dev giao build đến lúc QA sign-off.</h2>
+        <p>
+          Hệ thống không cố “quản lý mọi thứ trong testing”. Nó tập trung vào một công việc rõ ràng:
+          <strong>quản lý vòng đời kiểm thử của từng release.</strong>
+        </p>
+      </div>
+
+      <ol class="workflow-track">
+        <li>
+          <span class="step-no">01</span>
+          <div class="step-symbol">R</div>
+          <strong>Requirement</strong>
+          <p>Xác định chức năng cần được kiểm chứng trong release.</p>
+        </li>
+        <li>
+          <span class="step-no">02</span>
+          <div class="step-symbol">T</div>
+          <strong>Test design</strong>
+          <p>Thiết kế test case, dữ liệu test và expected result.</p>
+        </li>
+        <li>
+          <span class="step-no">03</span>
+          <div class="step-symbol">▶</div>
+          <strong>Execution</strong>
+          <p>Chạy manual hoặc nhận kết quả từ automation.</p>
+        </li>
+        <li>
+          <span class="step-no">04</span>
+          <div class="step-symbol">!</div>
+          <strong>Defect</strong>
+          <p>Ghi nhận lỗi và giữ liên kết đến test case gốc.</p>
+        </li>
+        <li>
+          <span class="step-no">05</span>
+          <div class="step-symbol">↻</div>
+          <strong>Regression</strong>
+          <p>Retest bản sửa và kiểm tra ảnh hưởng liên quan.</p>
+        </li>
+        <li>
+          <span class="step-no">06</span>
+          <div class="step-symbol">✓</div>
+          <strong>Decision</strong>
+          <p>Tổng hợp coverage, blocker và rủi ro để sign-off.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="scenario">
+      <div class="section-kicker">
+        <span>03</span>
+        <p>Một tình huống thực tế</p>
+      </div>
+
+      <div class="scenario-layout">
+        <aside class="scenario-aside">
+          <span class="micro-label">Example</span>
+          <h2>FR-12<br />Visa Payment</h2>
+          <p>Một requirement, sáu test case, một defect critical — nhưng toàn bộ ngữ cảnh vẫn nằm trên cùng một trace.</p>
+
+          <div class="coverage-meter">
+            <div class="meter-label">
+              <span>Requirement coverage</span>
+              <strong>100%</strong>
+            </div>
+            <div class="meter-track"><span style="width:100%"></span></div>
+          </div>
+        </aside>
+
+        <div class="scenario-main">
+          <div class="case-table" role="table" aria-label="Kết quả test cho FR-12">
+            <div class="case-row case-header" role="row">
+              <span>Test case</span>
+              <span>Scenario</span>
+              <span>Status</span>
+            </div>
+            <div class="case-row" role="row">
+              <span>TC-1201</span><span>Valid Visa</span><span class="status-text pass">PASS</span>
+            </div>
+            <div class="case-row" role="row">
+              <span>TC-1202</span><span>Invalid card number</span><span class="status-text pass">PASS</span>
+            </div>
+            <div class="case-row" role="row">
+              <span>TC-1203</span><span>Expired card</span><span class="status-text pass">PASS</span>
+            </div>
+            <div class="case-row is-highlighted" role="row">
+              <span>TC-1204</span><span>Insufficient balance</span><span class="status-text fail">FAIL</span>
+            </div>
+            <div class="case-row" role="row">
+              <span>TC-1205</span><span>Payment timeout</span><span class="status-text blocked">BLOCKED</span>
+            </div>
+            <div class="case-row" role="row">
+              <span>TC-1206</span><span>Double payment</span><span class="status-text pass">PASS</span>
+            </div>
+          </div>
+
+          <div class="defect-bridge" aria-hidden="true"><span></span></div>
+
+          <article class="defect-ticket">
+            <div class="ticket-top">
+              <span>BUG-183</span>
+              <span class="pill pill-critical">Critical</span>
+            </div>
+            <h3>Payment succeeds despite insufficient balance</h3>
+            <dl>
+              <div><dt>Requirement</dt><dd>FR-12</dd></div>
+              <div><dt>Origin</dt><dd>TC-1204</dd></div>
+              <div><dt>Release</dt><dd>2.1</dd></div>
+              <div><dt>Next step</dt><dd>Retest</dd></div>
+            </dl>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="scope-section" id="scope">
+      <div class="section-kicker">
+        <span>04</span>
+        <p>Phạm vi đề tài</p>
+      </div>
+
+      <div class="scope-intro">
+        <h2>Không xây một “Testing Super App”.</h2>
+        <p>
+          Performance, security, penetration hay game testing đều có workflow và dữ liệu riêng.
+          Proposal này cố ý khóa scope để giải quyết sâu bài toán functional/regression testing trước.
+        </p>
+      </div>
+
+      <div class="scope-board">
+        <div class="scope-column scope-in">
+          <div class="scope-title">
+            <span>IN</span>
+            <h3>Core scope</h3>
+          </div>
+          <ul>
+            <li><strong>Functional testing</strong><span>Kiểm chứng hành vi theo requirement.</span></li>
+            <li><strong>Regression testing</strong><span>Retest và kiểm tra tác động sau thay đổi.</span></li>
+            <li><strong>Manual execution</strong><span>Tester trực tiếp ghi nhận kết quả và evidence.</span></li>
+            <li><strong>Automated functional result</strong><span>Nhận kết quả từ Playwright / Selenium / API runner.</span></li>
+            <li><strong>Web & Mobile software</strong><span>Phạm vi sản phẩm mục tiêu ban đầu.</span></li>
+          </ul>
+        </div>
+
+        <div class="scope-column scope-out">
+          <div class="scope-title">
+            <span>OUT</span>
+            <h3>Not core — for now</h3>
+          </div>
+          <ul>
+            <li><strong>Performance testing</strong><span>RPS, p95/p99, throughput, resource profiling.</span></li>
+            <li><strong>Security testing</strong><span>Vulnerability, CVE/CVSS, remediation lifecycle.</span></li>
+            <li><strong>Penetration testing</strong><span>Attack path và exploitation workflow.</span></li>
+            <li><strong>Game-specific QA</strong><span>Build/device/platform matrix đặc thù game.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="execution-section">
+      <div class="section-kicker inverted">
+        <span>05</span>
+        <p>Manual và automation cùng một nơi</p>
+      </div>
+
+      <div class="execution-grid">
+        <div class="execution-copy">
+          <h2>Execution khác nhau.<br />Kết quả cần hội tụ.</h2>
+          <p>
+            Tester có thể chạy test thủ công, hoặc pipeline có thể đẩy kết quả automation.
+            Cả hai đều quay về cùng một model: <strong>test nào đã chạy, trên release nào, và kết quả ra sao.</strong>
+          </p>
+
+          <div class="mode-switch" role="tablist" aria-label="Chọn kiểu execution">
+            <button class="mode-button is-active" data-mode="manual" role="tab" aria-selected="true">Manual</button>
+            <button class="mode-button" data-mode="auto" role="tab" aria-selected="false">Automation</button>
+          </div>
+        </div>
+
+        <div class="execution-demo">
+          <div class="demo-caption">
+            <span id="demo-label">Manual execution</span>
+            <span>→</span>
+            <span>Unified Test Run</span>
+          </div>
+
+          <div class="demo-canvas" id="demo-canvas">
+            <div class="demo-source" id="demo-source">
+              <div class="source-head">
+                <span class="source-icon">QA</span>
+                <div><small>Executed by</small><strong>Tester</strong></div>
+              </div>
+              <div class="source-lines">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="demo-arrow">→</div>
+            <div class="demo-result">
+              <div class="result-head"><span>TC-1204</span><span class="pill pill-fail">Failed</span></div>
+              <strong>Test Run · Release 2.1</strong>
+              <small>Evidence · Environment · Defect link</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="questions" id="outcome">
+      <div class="section-kicker">
+        <span>06</span>
+        <p>Giá trị mà hệ thống phải tạo ra</p>
+      </div>
+
+      <div class="questions-head">
+        <h2>Mở hệ thống lên, QA Lead phải trả lời được ngay.</h2>
+      </div>
+
+      <div class="question-list">
+        <article><span>01</span><h3>Release này đang test đến đâu?</h3><p>Execution progress + run status theo release.</p></article>
+        <article><span>02</span><h3>Requirement nào chưa được cover?</h3><p>Traceability giữa requirement và test case.</p></article>
+        <article><span>03</span><h3>Test nào đang Fail hoặc Blocked?</h3><p>Trạng thái test run có thể lọc và truy nguyên.</p></article>
+        <article><span>04</span><h3>Còn Critical bug nào chưa fix?</h3><p>Defect status gắn trực tiếp với execution.</p></article>
+        <article><span>05</span><h3>Bug này đến từ test case nào?</h3><p>Trace Requirement → Case → Run → Defect.</p></article>
+        <article><span>06</span><h3>Đã đủ điều kiện release chưa?</h3><p>Coverage + blocker + regression + quality signal.</p></article>
+      </div>
+    </section>
+
+    <section class="proposal" id="proposal">
+      <div class="proposal-index">PROPOSAL / 01</div>
+      <div class="proposal-main">
+        <p class="proposal-label">Working direction</p>
+        <h2>Software Test Execution & Quality Management Platform</h2>
+        <p>
+          Một nền tảng cộng tác dành cho QA/QC team, tập trung vào vòng đời kiểm thử functional và regression,
+          với khả năng truy vết requirement, hợp nhất kết quả manual/automation và hỗ trợ đánh giá chất lượng release.
+        </p>
+
+        <div class="proposal-tags" aria-label="Các trụ cột đề tài">
+          <span>Requirement traceability</span>
+          <span>Test execution</span>
+          <span>Defect linkage</span>
+          <span>Regression</span>
+          <span>Release visibility</span>
+          <span>Automation integration</span>
+        </div>
+      </div>
+      <div class="proposal-status">
+        <span>Current stage</span>
+        <strong>Idea validation</strong>
+        <small>Scope before features.</small>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand">TRACE / QA</div>
+    <p>Proposal landing page · Software Testing Management System</p>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
