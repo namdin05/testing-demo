@@ -16,7 +16,7 @@ Bài toán được khóa ở:
 
 ## Vì sao scope này?
 
-Testing có nhiều nhánh với workflow và dữ liệu khác nhau. Proposal cố ý **không** gom Performance, Security, Penetration hay Game-specific QA vào core ngay từ đầu.
+Testing có nhiều nhánh với workflow và dữ liệu khác nhau. Proposal cố ý không gom Performance, Security, Penetration hay Game-specific QA vào core ngay từ đầu.
 
 Mục tiêu của hệ thống là làm rõ relationship giữa các artifact kiểm thử và giúp QA Lead trả lời nhanh các câu hỏi như:
 
@@ -41,25 +41,23 @@ Phong cách được chọn theo hướng editorial / product proposal:
 
 ## Chạy local
 
-Chỉ cần mở `index.html`, hoặc dùng extension Live Server trong VS Code.
+Chỉ cần mở index.html, hoặc dùng extension Live Server trong VS Code.
 
 Ví dụ:
 
-```bash
 npx serve .
-```
 
 ## Public bằng GitHub Pages
 
-Repository có workflow deploy trong `.github/workflows/pages.yml`.
+Vì đây là static site thuần HTML/CSS/JS, có thể publish trực tiếp từ branch main:
 
-Nếu Pages chưa được bật cho repo:
+1. Mở Settings → Pages.
+2. Ở Build and deployment chọn Source: Deploy from a branch.
+3. Chọn Branch: main và Folder: /(root).
+4. Save.
 
-1. Mở **Settings → Pages**.
-2. Ở **Build and deployment**, chọn **Source: GitHub Actions**.
-3. Push/merge thay đổi vào branch `main`.
-4. Workflow **Deploy proposal to GitHub Pages** sẽ publish site.
+GitHub Pages sẽ serve trực tiếp index.html ở root.
 
 ---
 
-**Stage:** Idea validation — scope before features.
+Stage: Idea validation — scope before features.
