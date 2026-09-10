@@ -33,7 +33,9 @@ Mục tiêu của hệ thống là làm rõ relationship giữa các artifact ki
 Nội dung được trình bày như một bài luận kỹ thuật dài thay vì landing page chia thành nhiều module:
 
 - Một mạch đọc liên tục theo thứ tự Vấn đề → Đề xuất → Ví dụ → Phạm vi → Giá trị.
-- Cột chữ hẹp, typography serif và khoảng trắng lớn để ưu tiên khả năng đọc.
+- Mục lục cố định ở cạnh trái trên desktop và chuyển thành thanh ngang trên mobile.
+- Dùng Be Vietnam Pro được nhúng trực tiếp để hiển thị đầy đủ dấu tiếng Việt.
+- Cột chữ hẹp và khoảng trắng lớn để ưu tiên khả năng đọc.
 - Chỉ giữ lại những sơ đồ, danh sách cần thiết để làm rõ lập luận.
 - Responsive cho desktop và mobile, không phụ thuộc framework hoặc thư viện UI.
 
