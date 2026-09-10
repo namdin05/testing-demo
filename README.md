@@ -28,16 +28,14 @@ Mục tiêu của hệ thống là làm rõ relationship giữa các artifact ki
 - Regression đã hoàn thành chưa?
 - Release có đủ điều kiện sign-off chưa?
 
-## Thiết kế landing page
+## Thiết kế trang
 
-Phong cách được chọn theo hướng editorial / product proposal:
+Nội dung được trình bày như một bài luận kỹ thuật dài thay vì landing page chia thành nhiều module:
 
-- Bố cục typography lớn, có nhịp điệu.
-- Ít card bo tròn, không gradient trang trí.
-- Các sơ đồ workflow được biểu diễn trực tiếp bằng HTML/CSS.
-- Màu sắc mang ý nghĩa trạng thái testing thay vì trang trí.
-- Responsive cho desktop và mobile.
-- Không phụ thuộc framework hoặc thư viện UI.
+- Một mạch đọc liên tục theo thứ tự Vấn đề → Đề xuất → Ví dụ → Phạm vi → Giá trị.
+- Cột chữ hẹp, typography serif và khoảng trắng lớn để ưu tiên khả năng đọc.
+- Chỉ giữ lại những sơ đồ, danh sách cần thiết để làm rõ lập luận.
+- Responsive cho desktop và mobile, không phụ thuộc framework hoặc thư viện UI.
 
 ## Chạy local
 
