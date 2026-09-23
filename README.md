@@ -1,63 +1,37 @@
-# TRACE / QA — Testing Workflow Proposal
+# Intelligent Assessment — Knowledge page
 
-Landing page proposal cho ý tưởng **Software Test Execution & Quality Management Platform**.
+Trang tài liệu nội bộ tiếng Việt, diễn giải từ đặc tả `proposal-spec.md`.
 
-## Mục tiêu
+## Cấu trúc
 
-Website này chưa phải sản phẩm hoàn chỉnh. Nó được dùng để truyền đạt và lấy feedback cho ý tưởng đồ án trước khi chốt feature và phân chia công việc.
+```
+.
+├── index.html          # tổng quan, vai trò, research, phạm vi, câu hỏi cần chốt
+├── app.js              # dữ liệu 20 module và hành vi điều hướng
+├── styles.css          # giao diện desktop, tablet, mobile
+├── proposal-spec.md    # đặc tả gốc (dùng để đối chiếu / tải về)
+├── revision-notes.md   # ghi chú thay đổi v0.2
+└── .nojekyll           # để GitHub Pages serve file nguyên bản, không qua Jekyll
+```
 
-Bài toán được khóa ở:
-
-- Đối tượng chính: QA / QC / QA Lead.
-- Loại kiểm thử chính: Functional Testing và Regression Testing.
-- Execution: Manual + Automated functional results.
-- Phạm vi sản phẩm: Web / Mobile software.
-- Luồng cốt lõi: Requirement → Test Design → Test Execution → Defect → Regression → Release Decision.
-
-## Vì sao scope này?
-
-Testing có nhiều nhánh với workflow và dữ liệu khác nhau. Proposal cố ý không gom Performance, Security, Penetration hay Game-specific QA vào core ngay từ đầu.
-
-Mục tiêu của hệ thống là làm rõ relationship giữa các artifact kiểm thử và giúp QA Lead trả lời nhanh các câu hỏi như:
-
-- Release đang test đến đâu?
-- Requirement nào chưa được cover?
-- Test nào đang Fail / Blocked?
-- Còn Critical bug nào chưa fix?
-- Bug xuất phát từ test case nào?
-- Regression đã hoàn thành chưa?
-- Release có đủ điều kiện sign-off chưa?
-
-## Thiết kế trang
-
-Nội dung được trình bày như một bài luận kỹ thuật dài thay vì landing page chia thành nhiều module:
-
-- Một mạch đọc liên tục theo thứ tự Vấn đề → Đề xuất → Ví dụ → Phạm vi → Giá trị.
-- Mục lục cố định ở cạnh trái trên desktop và chuyển thành thanh ngang trên mobile.
-- Dùng Be Vietnam Pro được nhúng trực tiếp để hiển thị đầy đủ dấu tiếng Việt.
-- Cột chữ hẹp và khoảng trắng lớn để ưu tiên khả năng đọc.
-- Chỉ giữ lại những sơ đồ, danh sách cần thiết để làm rõ lập luận.
-- Responsive cho desktop và mobile, không phụ thuộc framework hoặc thư viện UI.
+Các nhãn là phạm vi đề xuất, không phải trạng thái triển khai. Cập nhật nội dung và `proposal-spec.md` khi đặc tả thay đổi.
 
 ## Chạy local
 
-Chỉ cần mở index.html, hoặc dùng extension Live Server trong VS Code.
+Mở `index.html` trực tiếp bằng trình duyệt, hoặc:
 
-Ví dụ:
+```sh
+python3 -m http.server 4173 --bind 127.0.0.1
+```
 
-npx serve .
+Sau đó mở http://127.0.0.1:4173.
 
-## Public bằng GitHub Pages
+## Xuất bản bằng GitHub Pages
 
-Vì đây là static site thuần HTML/CSS/JS, có thể publish trực tiếp từ branch main:
+Static site thuần HTML/CSS/JS, publish trực tiếp từ branch `main`:
 
-1. Mở Settings → Pages.
-2. Ở Build and deployment chọn Source: Deploy from a branch.
-3. Chọn Branch: main và Folder: /(root).
-4. Save.
+1. Settings → Pages.
+2. Build and deployment → Source: **Deploy from a branch**.
+3. Branch: **main**, Folder: **/(root)** → Save.
 
-GitHub Pages sẽ serve trực tiếp index.html ở root.
-
----
-
-Stage: Idea validation — scope before features.
+Mỗi lần push lên `main`, GitHub Pages sẽ tự cập nhật trang tại https://namdin05.github.io/testing-demo/.

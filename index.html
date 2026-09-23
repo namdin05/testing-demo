@@ -1,191 +1,104 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Đề xuất một hệ thống quản lý vòng đời kiểm thử phần mềm có khả năng truy vết từ requirement đến quyết định release." />
-  <meta name="theme-color" content="#f7f6f2" />
-  <title>Một luồng kiểm thử có thể truy vết — TRACE / QA</title>
-  <link rel="stylesheet" href="./styles.css" />
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sổ tay tính năng · Intelligent Assessment Platform</title>
+<meta name="description" content="Tài liệu nội bộ về tính năng, phạm vi đề xuất và hướng nghiên cứu của Intelligent Assessment Platform.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232d4e9b'/%3E%3Cpath d='M8 9h7v16H8zm9 0h7v16h-7z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#article">Đi đến nội dung</a>
-
-  <aside class="site-menu" id="top" aria-label="Điều hướng bài viết">
-    <div class="menu-head">
-      <a class="wordmark" href="#article" aria-label="TRACE QA — về đầu bài viết">TRACE / QA</a>
-      <span class="edition">Đề xuất đồ án · 2026</span>
-    </div>
-    <nav aria-label="Mục lục bài viết">
-      <a href="#problem"><span>01</span>Vấn đề</a>
-      <a href="#proposal"><span>02</span>Đề xuất</a>
-      <a href="#example"><span>03</span>Ví dụ</a>
-      <a href="#scope"><span>04</span>Phạm vi</a>
-      <a href="#value"><span>05</span>Giá trị</a>
-    </nav>
-    <p class="menu-footer">Software Test Execution &amp;<br />Quality Management</p>
-  </aside>
-
-  <main id="article">
-    <article>
-      <header class="essay-opening">
-        <p class="overline">Software testing workflow proposal</p>
-        <h1>Một luồng kiểm thử<br /><em>có thể truy vết.</em></h1>
-        <p class="abstract">
-          Đề xuất một hệ thống giúp đội ngũ QA/QC quản lý quá trình kiểm thử chức năng của một phiên bản phần mềm — từ requirement, test case và test run đến defect, regression và quyết định release.
-        </p>
-        <dl class="opening-notes" aria-label="Định vị đề tài">
-          <div><dt>Đối tượng</dt><dd>QA/QC, QA Lead</dd></div>
-          <div><dt>Trọng tâm</dt><dd>Functional, Regression</dd></div>
-          <div><dt>Thực thi</dt><dd>Manual, Automated</dd></div>
-        </dl>
-      </header>
-
-      <section class="essay-section" id="problem">
-        <div class="margin-label" aria-hidden="true"><span>01</span> Vấn đề</div>
-        <div class="essay-copy">
-          <h2>Tester không thiếu công cụ. Họ thiếu một mạch liên kết giữa các công cụ.</h2>
-          <p class="lead">
-            Trong một nhóm nhỏ, requirement có thể nằm ở Jira, test case ở Google Sheets, evidence ở Drive, bug ở một tracker khác, còn các quyết định lại trôi qua Slack hoặc Teams.
-          </p>
-          <p>
-            Mỗi công cụ làm tốt một phần việc. Khó khăn xuất hiện ở khoảng trống giữa chúng. Khi dữ liệu bị tách rời, những câu hỏi tưởng như đơn giản — requirement nào chưa test, bug này xuất phát từ test case nào, release đã đủ điều kiện sign-off chưa — đều cần con người đối chiếu thủ công.
-          </p>
-          <p>
-            Vấn đề vì thế không nằm ở việc thiếu thêm một nơi để nhập dữ liệu. Vấn đề là thiếu một cấu trúc chung để giữ quan hệ giữa các artifact kiểm thử xuyên suốt một release.
-          </p>
-
-          <blockquote>
-            <p>Mục tiêu không phải gom mọi công cụ vào một màn hình, mà là giữ cho ngữ cảnh không bị đứt đoạn.</p>
-          </blockquote>
-
-          <div class="inline-trace" aria-label="Luồng dữ liệu đang bị phân tán">
-            <span>Requirement</span><i>→</i><span>Test case</span><i>→</i><span>Execution</span><i>→</i><span>Defect</span><i>→</i><span>Report</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="essay-section" id="proposal">
-        <div class="margin-label" aria-hidden="true"><span>02</span> Đề xuất</div>
-        <div class="essay-copy">
-          <h2>Quản lý một vòng đời kiểm thử, từ lúc Dev giao build đến khi QA sign-off.</h2>
-          <p class="lead">
-            Hệ thống được định vị là một <strong>Software Test Execution &amp; Quality Management Platform</strong>: nơi kết nối requirement, thiết kế test, kết quả thực thi, defect và regression theo từng phiên bản phần mềm.
-          </p>
-          <p>
-            Thay vì cố “quản lý mọi thứ trong testing”, sản phẩm tập trung vào một công việc rõ ràng: giúp QA theo dõi một release đã được kiểm chứng đến đâu, điều gì đang chặn nó và bằng chứng nào đứng sau quyết định cuối cùng.
-          </p>
-
-          <ol class="workflow" aria-label="Sáu bước trong vòng đời kiểm thử">
-            <li><span>01</span><div><h3>Requirement</h3><p>Xác định chức năng cần được kiểm chứng trong release.</p></div></li>
-            <li><span>02</span><div><h3>Test design</h3><p>Thiết kế test case, dữ liệu test và kết quả mong đợi.</p></div></li>
-            <li><span>03</span><div><h3>Execution</h3><p>Tester chạy thủ công hoặc hệ thống nhận kết quả từ automation.</p></div></li>
-            <li><span>04</span><div><h3>Defect</h3><p>Ghi nhận lỗi và duy trì liên kết đến test case gốc.</p></div></li>
-            <li><span>05</span><div><h3>Regression</h3><p>Retest bản sửa và kiểm tra những vùng có thể bị ảnh hưởng.</p></div></li>
-            <li><span>06</span><div><h3>Release decision</h3><p>Tổng hợp coverage, blocker và rủi ro để đi đến sign-off.</p></div></li>
-          </ol>
-
-          <p>
-            Manual và automation có cách thực thi khác nhau, nhưng kết quả cần hội tụ về cùng một mô hình: test nào đã chạy, trên release nào, trong môi trường nào, kết quả ra sao và có dẫn tới defect hay không.
-          </p>
-        </div>
-      </section>
-
-      <section class="essay-section" id="example">
-        <div class="margin-label" aria-hidden="true"><span>03</span> Ví dụ</div>
-        <div class="essay-copy">
-          <h2>Một requirement, sáu test case và một defect critical — trên cùng một dấu vết.</h2>
-          <p class="lead">
-            Giả sử release 2.1 có requirement <strong>FR-12 · Visa Payment</strong>. Requirement này được cover bởi sáu test case; bốn case pass, một case blocked và case “insufficient balance” fail.
-          </p>
-          <p>
-            Từ lần chạy thất bại của <strong>TC-1204</strong>, tester tạo <strong>BUG-183 · Payment succeeds despite insufficient balance</strong> với mức độ Critical. Defect không tồn tại như một ticket rời rạc: nó biết requirement gốc, test case đã phát hiện lỗi, release đang chịu ảnh hưởng và bước tiếp theo là retest.
-          </p>
-
-          <figure class="case-note">
-            <figcaption>Một trace tối giản</figcaption>
-            <div class="trace-row"><span>Requirement</span><strong>FR-12 · Visa Payment</strong></div>
-            <div class="trace-row"><span>Test case</span><strong>TC-1204 · Insufficient balance</strong></div>
-            <div class="trace-row"><span>Kết quả</span><strong class="status-fail">Failed</strong></div>
-            <div class="trace-row"><span>Defect</span><strong>BUG-183 · Critical</strong></div>
-            <div class="trace-row"><span>Tiếp theo</span><strong>Retest trên build 2.1.4</strong></div>
-          </figure>
-
-          <p>
-            Nhờ mối liên kết đó, QA Lead không chỉ nhìn thấy con số “4/6 passed”. Họ hiểu chính xác rủi ro còn lại nằm ở đâu và có thể lần ngược toàn bộ bằng chứng trước khi đưa ra quyết định.
-          </p>
-        </div>
-      </section>
-
-      <section class="essay-section" id="scope">
-        <div class="margin-label" aria-hidden="true"><span>04</span> Phạm vi</div>
-        <div class="essay-copy">
-          <h2>Không xây một “Testing Super App”.</h2>
-          <p class="lead">
-            Testing có nhiều nhánh với workflow và dữ liệu rất khác nhau. Đề xuất này cố ý khóa phạm vi để giải quyết sâu bài toán functional và regression testing trước.
-          </p>
-
-          <div class="scope-list">
-            <div>
-              <p class="list-label">Trong phạm vi</p>
-              <ul>
-                <li><strong>Functional testing</strong> — kiểm chứng hành vi theo requirement.</li>
-                <li><strong>Regression testing</strong> — retest và kiểm tra tác động sau thay đổi.</li>
-                <li><strong>Manual execution</strong> — tester ghi nhận kết quả và evidence.</li>
-                <li><strong>Automated functional result</strong> — nhận kết quả từ Playwright, Selenium hoặc API runner.</li>
-                <li><strong>Web &amp; mobile software</strong> — phạm vi sản phẩm mục tiêu ban đầu.</li>
-              </ul>
-            </div>
-            <div>
-              <p class="list-label muted">Chưa phải core</p>
-              <ul class="muted-list">
-                <li>Performance testing</li>
-                <li>Security &amp; penetration testing</li>
-                <li>Game-specific QA</li>
-              </ul>
-            </div>
-          </div>
-
-          <p>
-            Việc giới hạn này không phủ nhận nhu cầu mở rộng trong tương lai. Nó tạo một ranh giới đủ rõ để sản phẩm đầu tiên có workflow nhất quán, dữ liệu có thể mô hình hóa và giá trị có thể kiểm chứng.
-          </p>
-        </div>
-      </section>
-
-      <section class="essay-section" id="value">
-        <div class="margin-label" aria-hidden="true"><span>05</span> Giá trị</div>
-        <div class="essay-copy">
-          <h2>Mở hệ thống lên, QA Lead phải trả lời được ngay.</h2>
-          <ul class="key-questions">
-            <li>Release này đang test đến đâu?</li>
-            <li>Requirement nào chưa được cover?</li>
-            <li>Test nào đang fail hoặc blocked?</li>
-            <li>Còn Critical bug nào chưa được fix?</li>
-            <li>Bug này xuất phát từ test case nào?</li>
-            <li>Regression đã hoàn thành và release đã đủ điều kiện sign-off chưa?</li>
-          </ul>
-          <p>
-            Nếu hệ thống trả lời được những câu hỏi trên bằng dữ liệu đã có sẵn trong luồng làm việc, nó giảm công sức tổng hợp báo cáo và giúp quyết định release dựa trên một nguồn sự thật chung, thay vì trí nhớ hoặc các bảng tính rời rạc.
-          </p>
-        </div>
-      </section>
-
-      <footer class="essay-ending">
-        <p class="overline">Kết luận</p>
-        <p class="closing-statement">
-          Một nền tảng cộng tác cho QA/QC, tập trung vào vòng đời kiểm thử functional và regression, với khả năng truy vết requirement, hợp nhất kết quả manual và automation, và làm rõ chất lượng của từng release.
-        </p>
-        <div class="ending-meta">
-          <span>Giai đoạn hiện tại: <strong>Idea validation</strong></span>
-          <span>Scope before features.</span>
-        </div>
-      </footer>
-    </article>
-  </main>
-
-  <footer class="site-footer">
-    <span>TRACE / QA</span>
-    <a href="#top">Về đầu trang ↑</a>
-  </footer>
-</body>
-</html>
+<a class="skip" href="#content">Đến nội dung</a>
+<aside class="sidebar" id="sidebar">
+<a href="#overview" class="brand"><span class="brand-icon">ia</span><span>Intelligent Assessment<small>Project knowledge base</small></span></a>
+<div class="workspace"><span class="workspace-icon">▤</span> Sổ tay dự án <span class="version">v0.2</span></div>
+<nav aria-label="Mục lục chính">
+<p class="nav-label">Bắt đầu đọc</p>
+<a href="#overview" class="nav-link active"><span>◫</span>Tổng quan dự án</a>
+<a href="#workflow" class="nav-link"><span>↳</span>Vòng đời đánh giá</a>
+<a href="#roles" class="nav-link"><span>♧</span>Vai trò & quyền hạn</a>
+<p class="nav-label">Khám phá tính năng</p>
+<a href="#foundation" class="nav-link"><span>▱</span>Học phần & tài liệu <small>3</small></a>
+<a href="#questions" class="nav-link"><span>▤</span>Ngân hàng câu hỏi <small>4</small></a>
+<a href="#assessment" class="nav-link"><span>▦</span>Tạo đề & tổ chức thi <small>4</small></a>
+<a href="#paper" class="nav-link"><span>▧</span>Phiếu giấy & scan <small>2</small></a>
+<a href="#grading" class="nav-link"><span>✓</span>Chấm điểm & phản hồi <small>3</small></a>
+<a href="#analytics" class="nav-link"><span>▥</span>Phân tích & cải thiện <small>4</small></a>
+<a href="#personalization" class="nav-link"><span>↗</span>Phân phối bài phù hợp</a>
+<a href="#trust" class="nav-link"><span>◇</span>Minh bạch & kiểm soát</a>
+<a href="#requirements" class="nav-link"><span>✓</span>Yêu cầu & kiểm chứng</a>
+<p class="nav-label">Thảo luận cùng nhóm</p>
+<a href="#research" class="nav-link"><span>⌘</span>Trọng tâm nghiên cứu</a>
+<a href="#scope" class="nav-link"><span>⊞</span>Phạm vi đề xuất</a>
+<a href="#team" class="nav-link"><span>◇</span>Phân công research</a>
+<a href="#decisions" class="nav-link"><span>?</span>Câu hỏi cần chốt</a>
+</nav>
+<div class="sidebar-bottom"><span class="draft-dot"></span> Đang nghiên cứu<small>Phạm vi chưa được phê duyệt</small><a href="proposal-spec.md" download>Tải đặc tả gốc ↗</a></div>
+</aside>
+<div class="page">
+<header class="topbar"><button class="menu-button" aria-label="Mở mục lục" aria-expanded="false" aria-controls="sidebar">☰</button><div>Knowledge base <span>/</span> <strong>Sổ tay tính năng</strong></div><a href="proposal-spec.md">Đặc tả nguồn <span>↗</span></a></header>
+<div class="layout"><main id="content">
+<section id="overview" class="intro">
+<div class="doc-meta"><span class="document-icon">▤</span><span>Tài liệu nội bộ</span><span class="badge draft">Bản đề xuất</span></div>
+<h1>Sổ tay tính năng</h1>
+<p class="lead">Intelligent Assessment Platform</p>
+<p class="intro-text">Kết nối ngân hàng câu hỏi, bài thi online và bài giấy với phân tích năng lực, luyện tập cá nhân hóa và quy trình đánh giá có thể giải trình.</p>
+<div class="doc-facts"><span><b>20</b> module đề xuất</span><span><b>2</b> hình thức làm bài</span><span><b>5</b> nhóm việc research</span></div>
+<div class="notice"><span>ⓘ</span><div><strong>Đọc như một bản định hướng, chưa phải cam kết triển khai.</strong><p>Bản v0.2 kết hợp đặc tả gốc và yêu cầu mới: chấm phiếu giấy, phân phối bài theo năng lực, minh bạch nghiệp vụ. Các mức ưu tiên là khuyến nghị để nhóm thảo luận; đây là tài liệu tính năng, chưa phải hệ thống đã triển khai.</p></div></div>
+<h2 class="small-heading">Dự án giải quyết điều gì?</h2>
+<p>Giảng viên cần thu được dữ liệu có ích từ cả bài giấy và bài online. Sinh viên cần bài luyện tập vừa sức, biết vì sao được giao bài và được giải thích kết quả. Mỗi quyết định quan trọng — chọn đề, nhận diện đáp án, sửa điểm hay phân phối bài — cần có căn cứ và người chịu trách nhiệm.</p>
+<div class="principles"><div><b>Cùng một hồ sơ đánh giá</b><p>Bài giấy và online cùng liên kết tới câu hỏi, phiên bản đề và chuẩn đầu ra.</p></div><div><b>Có căn cứ, có quyền xem lại</b><p>AI hỗ trợ; giảng viên xác nhận; sinh viên nhận giải thích và có quy trình phúc khảo.</p></div></div>
+</section>
+<section id="workflow"><div class="section-title"><h2>Một vòng đời, hai cách làm bài</h2><span class="source">Định hướng v0.2</span></div><p>Chuẩn bị chung một ngân hàng câu hỏi; kết quả từ hai hình thức đều quay về cùng quy trình chấm, phân tích và giao bài tiếp theo.</p>
+<div class="flow"><a href="#questions"><span>01</span><b>Chuẩn bị</b><small>Câu hỏi, nguồn, độ khó & chuẩn đầu ra</small></a><a href="#assessment"><span>02</span><b>Tạo đề</b><small>Blueprint, kiểm tra & khóa phiên bản</small></a><a href="#paper"><span>03</span><b>Làm bài</b><small>Online hoặc in phiếu & scan điện thoại</small></a><a href="#grading"><span>04</span><b>Xác nhận</b><small>Kiểm tra đáp án, duyệt điểm & công bố</small></a><a href="#personalization"><span>05</span><b>Cải thiện</b><small>Cập nhật năng lực & giao bài phù hợp</small></a></div><div class="feedback-loop">↶ Kết quả đã xác nhận giúp cải thiện câu hỏi và điều chỉnh bài luyện tập tiếp theo</div>
+<div class="channel-grid"><article><h3>Làm bài trên web</h3><p>Lưu câu trả lời → nộp bài → nhận biên nhận. Không cần phiếu tô hay bước nhận diện ảnh.</p></article><article><h3>Làm bài trên giấy</h3><p>Xuất đề & phiếu → làm bài → chụp điện thoại → đọc ô tô → kiểm tra các ô chưa rõ.</p></article></div>
+<div class="trust-strip"><a href="#trust">Lớp minh bạch xuyên suốt</a><span>Phân quyền → phê duyệt → truy vết → giải trình → phúc khảo</span></div>
+<details class="template"><summary>Một tình huống xuyên suốt để nhóm hình dung <span>+</span></summary><p>Giảng viên gán độ khó cho câu hỏi CPU Scheduling, tạo đề và in phiếu. Sau khi scan, trợ giảng kiểm tra ô tô mờ; giảng viên duyệt kết quả. Sinh viên xem bằng chứng chấm, đề nghị xem lại nếu cần. Dữ liệu đã xác nhận cập nhật hồ sơ theo chủ đề; hệ thống giao bài luyện tập phù hợp, giải thích lý do và kiểm tra lại bằng câu khác cùng chuẩn đầu ra.</p></details></section>
+<section id="roles"><div class="section-title"><h2>Ai sử dụng hệ thống?</h2><span class="source">§6–7</span></div><div class="table-wrap"><table><thead><tr><th>Vai trò</th><th>Công việc chính</th></tr></thead><tbody><tr><td><strong>Giảng viên</strong><small>Người dùng chính</small></td><td>Quản lý học phần, duyệt câu hỏi, tạo đề, chấm bài và phân tích kết quả.</td></tr><tr><td><strong>Sinh viên</strong></td><td>Tham gia lớp, làm bài, xem phản hồi, nhận diện điểm yếu và luyện tập.</td></tr><tr><td><strong>Trợ giảng</strong></td><td>Hỗ trợ review câu hỏi, chấm bài, giám sát kỳ thi và quản lý sinh viên.</td></tr><tr><td><strong>Quản trị viên</strong></td><td>Quản lý người dùng, tổ chức, cấu hình và nhật ký; phân biệt cấp hệ thống và cơ sở đào tạo.</td></tr></tbody></table></div><p class="caption">Quyền gắn với hành động và phạm vi học phần. Quyền quản trị kỹ thuật không mặc định là quyền đọc mọi bài làm hoặc tự sửa điểm. Phân công reviewer độc lập là chính sách đề xuất cần nhóm chốt.</p></section>
+<div id="modules"></div>
+<section id="personalization"><div class="section-title"><h2>Phân phối bài theo năng lực</h2><span class="source">Yêu cầu mới · §38–43</span></div><p>Giáo viên gán độ khó câu hỏi; hệ thống dùng kết quả học tập đã xác nhận để ước lượng mức thành thạo theo từng chủ đề. Một sinh viên có thể mạnh ở Process và cần củng cố Synchronization.</p>
+<div class="channel-grid"><article><h3>Thi chung để so sánh kết quả</h3><p>Các mã đề theo cùng blueprint, có đặc tính tương đương. Không tự đổi sang đề dễ hoặc khó hơn theo từng sinh viên.</p></article><article><h3>Luyện tập để tiến bộ</h3><p>Thay đổi tỷ lệ dễ / trung bình / khó theo hồ sơ từng chủ đề; giảng viên đặt giới hạn và có thể điều chỉnh.</p></article></div>
+<h3>Ví dụ tỷ lệ câu hỏi cho bộ luyện tập</h3><div class="table-wrap"><table><thead><tr><th>Mức ở chủ đề đang luyện</th><th>Dễ</th><th>Trung bình</th><th>Khó</th></tr></thead><tbody><tr><td>Cần củng cố nền tảng</td><td>60%</td><td>30%</td><td>10%</td></tr><tr><td>Đã nắm kiến thức cơ bản</td><td>30%</td><td>50%</td><td>20%</td></tr><tr><td>Đã thành thạo</td><td>10%</td><td>40%</td><td>50%</td></tr></tbody></table></div><p class="caption">Tỷ lệ minh họa để thảo luận, chưa phải chính sách hay thuật toán đã kiểm chứng.</p>
+<ol class="reading-steps"><li><strong>Khởi tạo:</strong> dùng bài chẩn đoán khi thiếu lịch sử; hiển thị mức độ tin cậy của hồ sơ.</li><li><strong>Chọn bài:</strong> giữ độ bao phủ chuẩn đầu ra, giới hạn câu lặp và kết hợp củng cố với thử thách; báo thiếu câu thay vì âm thầm phá ràng buộc.</li><li><strong>Giải thích:</strong> cho biết chủ đề cần luyện, dữ liệu gần đây và lý do chọn mức khó. Sinh viên có thể phản hồi bài quá dễ / khó; giảng viên điều chỉnh có lưu lý do.</li><li><strong>Đánh giá lại:</strong> dùng câu khác cùng chuẩn đầu ra để kiểm tra tiến bộ; cập nhật hồ sơ sau nhiều bằng chứng, tránh đổi mức mạnh chỉ vì một câu sai.</li></ol>
+<div class="notice"><span>ⓘ</span><div><strong>Độ khó dự kiến khác với độ khó thực nghiệm.</strong><p>Lưu riêng nhãn giáo viên gán và tỷ lệ trả lời đúng, kèm số bài, nhóm sinh viên và phiên bản câu hỏi. Dữ liệu từ nhóm được giao đề cá nhân hóa có thể bị lệch chọn mẫu; không tự dùng tỷ lệ đúng để kết luận độ khó cho cả lớp.</p></div></div>
+<p>Ưu tiên thích ứng <strong>giữa các lần làm bài</strong>, dùng được cả giấy và online. Thích ứng từng câu trong bài online và chấm trên thang năng lực chung là nghiên cứu sau. Không so sánh trực tiếp điểm thô của các đề có độ khó khác nhau. <a href="https://www.rasch.org/mra/mra-11-09.htm">Tham khảo về cân bằng điểm giữa các đề</a>.</p></section>
+<section id="trust"><div class="section-title"><h2>Minh bạch & kiểm soát nghiệp vụ</h2><span class="source">Đề xuất bổ sung</span></div><p>Minh bạch là giải thích được quyết định cho đúng người có quyền. Không đồng nghĩa với công khai đề, đáp án, bài làm hay hồ sơ năng lực của cả lớp.</p>
+<div class="control-list">
+<details open><summary><span>01</span><strong>Đúng người, đúng lớp, đúng thời điểm</strong><span class="badge mvp">Nền tảng</span></summary><div><p>Tách quyền tạo câu hỏi, duyệt đề, scan, chấm, công bố và sửa điểm. Trợ giảng chỉ thao tác trên lớp được giao; sinh viên chỉ xem bài của mình. Quyền xem đáp án phụ thuộc trạng thái kỳ thi và lịch công bố.</p><p><b>Tình huống:</b> trợ giảng hết phân công sẽ mất quyền với các yêu cầu tiếp theo, kể cả vẫn giữ đường dẫn bài scan. Máy chủ kiểm tra quyền mỗi lần, không chỉ ẩn nút trên giao diện.</p></div></details>
+<details><summary><span>02</span><strong>Duyệt và khóa phiên bản đề</strong><span class="badge mvp">Nền tảng</span></summary><div><p>Nháp → chờ duyệt → đã duyệt → đã phát hành → đóng. Khi phát hành, lưu cố định câu hỏi, đáp án, rubric, blueprint, mẫu phiếu và ánh xạ mã đề. Không cho bỏ qua bước bằng cách gọi trực tiếp thao tác công bố.</p><p><b>Khi có sai sót:</b> tạo bản hiệu chỉnh, ghi lý do, phạm vi bài bị ảnh hưởng và người phê duyệt. Giữ bản đã sử dụng; chấm lại theo cùng quy tắc cho các bài liên quan.</p><p><b>Đề xuất nâng cao:</b> người duyệt thay đổi điểm sau công bố phải khác người yêu cầu; chính sách này cần cân nhắc với lớp chỉ có một giảng viên.</p></div></details>
+<details><summary><span>03</span><strong>Biên nhận bài nộp và nguồn gốc kết quả</strong><span class="badge mvp">Nền tảng</span></summary><div><p>Bài online có mã biên nhận, thời điểm máy chủ nhận, trạng thái đồng bộ và phiên bản đề. “Đã lưu trên thiết bị” khác “máy chủ đã nhận”; chỉ báo nộp thành công khi có xác nhận máy chủ.</p><p>Bài giấy giữ ảnh nguồn, mã mẫu, mã đề, kết quả nhận diện, các ô được sửa và người xác nhận. Quét lại không âm thầm tạo bài mới hoặc ghi đè bài cũ; xung đột sinh viên / mã đề phải được xử lý.</p><p>Mã QR chỉ tham chiếu mẫu và mã đề, không chứa đáp án hay dữ liệu cá nhân không cần thiết. QR không thay thế xác minh danh tính hoặc quyền truy cập.</p></div></details>
+<details><summary><span>04</span><strong>Sửa điểm có lý do và lịch sử</strong><span class="badge mvp">Nền tảng</span></summary><div><p>Lưu ai thực hiện, lúc nào, thay đổi trước / sau, lý do và căn cứ. Tách điểm máy gợi ý, điểm giảng viên xác nhận và điểm đã công bố. Sửa sau công bố tạo revision mới và thông báo cho người bị ảnh hưởng.</p><p>Nhật ký nghiệp vụ chỉ ghi nối tiếp trong luồng ứng dụng; người sửa điểm không được sửa / xóa lịch sử bằng giao diện hay API. Mức bảo vệ trước quản trị hạ tầng là yêu cầu riêng, không tuyên bố “bất biến tuyệt đối”.</p><p><b>Ví dụ:</b> câu 12 nhận diện B → D do ảnh tô mờ; điểm 7 → 8; có vùng ảnh đối chiếu và tên người xác nhận.</p></div></details>
+<details><summary><span>05</span><strong>Giải trình kết quả và phúc khảo</strong><span class="badge advanced">Nâng cao</span></summary><div><p>Sinh viên xem điểm, tiêu chí chấm và bằng chứng của chính mình theo lịch công bố. Gửi phúc khảo từng câu kèm lý do; hệ thống theo dõi đã gửi → đang xem xét → đã phản hồi → đóng.</p><p>Người được phân công trả lời bằng căn cứ, ghi nhận giữ / sửa điểm và thông báo kết quả. Giữ cả kết quả cũ và mới. Khi phát hiện lỗi đáp án chung, kiểm tra toàn bộ bài bị ảnh hưởng thay vì chỉ sửa bài đã khiếu nại.</p><p>Chuyển tab, đổi IP hoặc mất mạng chỉ là tín hiệu cần xem xét; không tự trừ điểm hay kết luận gian lận. Sinh viên có cơ hội giải thích sự kiện.</p></div></details>
+<details><summary><span>06</span><strong>Chia sẻ dữ liệu có phạm vi</strong><span class="badge mvp">Nền tảng</span></summary><div><p>Quy định ai được tải ảnh scan, xuất bảng điểm và xem hồ sơ năng lực. Ghi nhận xuất dữ liệu; dữ liệu nghiên cứu dùng mã thay thế danh tính và hạn chế trường không cần thiết.</p><p>Chốt thời hạn lưu ảnh / bài làm / nhật ký, xử lý yêu cầu xóa hoặc ẩn danh và ngoại lệ khi đang phúc khảo. Không ghi mật khẩu, token hay toàn bộ ảnh bài làm vào log kỹ thuật. Dữ liệu sinh viên chỉ đưa vào dịch vụ AI theo chính sách đã được phê duyệt.</p></div></details>
+</div><p class="caption">Cơ sở kỹ thuật: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html">OWASP Authorization</a>, <a href="https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html">OWASP Logging</a>, <a href="https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html">kiểm tra trạng thái workflow tại máy chủ</a>. Các quy trình giáo dục ở trên là đề xuất cho đồ án.</p></section>
+<section id="requirements"><div class="section-title"><h2>Đâu là tính năng, đâu là NFR?</h2><span class="source">Tiêu chí đề xuất</span></div><p><strong>Yêu cầu chức năng (FR)</strong> mô tả người dùng và hệ thống làm gì. <strong>Yêu cầu phi chức năng (NFR)</strong> mô tả mức an toàn, tin cậy, truy vết và chất lượng cần đạt. Một mục tiêu minh bạch thường cần cả hai.</p>
+<div class="table-wrap"><table class="requirements-table"><thead><tr><th>Mục tiêu</th><th>Chức năng cần có</th><th>Cách kiểm chứng đề xuất</th></tr></thead><tbody>
+<tr><td>Bảo mật truy cập</td><td>Phân công quyền theo lớp và hành động.</td><td>Thử truy cập chéo lớp, đổi mã bài làm và gọi API trái quyền: đều bị từ chối, không trả dữ liệu.</td></tr>
+<tr><td>Toàn vẹn kết quả</td><td>Khóa phiên bản, tạo yêu cầu sửa điểm.</td><td>Thay đổi điểm thiếu lý do hoặc không ghi được audit phải bị từ chối; hai lần sửa đồng thời không ghi đè âm thầm.</td></tr>
+<tr><td>Khả năng truy vết</td><td>Xem lịch sử và căn cứ chấm.</td><td>Tái dựng một kết quả từ bản đề, đáp án / rubric, bài nộp và các lần hiệu chỉnh; thử sửa / xóa audit phải bị chặn hoặc phát hiện theo mô hình đe dọa đã chọn.</td></tr>
+<tr><td>Độ tin cậy bài nộp</td><td>Tự lưu, phục hồi, biên nhận.</td><td>Mô phỏng mất mạng, hết giờ và gửi lại cùng yêu cầu: không tạo hai bài cuối; dữ liệu đã được máy chủ xác nhận không bị mất.</td></tr>
+<tr><td>Chất lượng scan</td><td>Nhận diện ô tô và hàng đợi kiểm tra.</td><td>Đo độ chính xác ô / toàn phiếu, tỷ lệ phải kiểm tra và thời gian xử lý trên ảnh lệch, mờ, thiếu sáng, tô / tẩy khác nhau; chốt ngưỡng sau pilot.</td></tr>
+<tr><td>Công bằng & giải thích</td><td>Giải thích phân phối bài, phúc khảo.</td><td>Mỗi bộ bài có lý do và phiên bản chính sách; kiểm tra sinh viên ít dữ liệu vẫn có lộ trình ban đầu, không bị khóa vĩnh viễn ở mức dễ.</td></tr>
+<tr><td>Riêng tư & hiệu năng</td><td>Xuất dữ liệu có quyền, lưu giữ có thời hạn.</td><td>Kiểm tra hết quyền và hết hạn lưu; đo độ trễ p95 khi lưu / nộp bài với tải đồng thời. Quy mô tải và ngưỡng thời gian cần nhóm chốt.</td></tr>
+</tbody></table></div><p class="caption">Đây là tiêu chí để thiết kế và kiểm thử ứng dụng sau này, không phải các kiểm thử đã chạy trên nền tảng. Trang hiện tại chỉ trình bày kiến thức.</p></section>
+<section id="research"><div class="section-title"><h2>Khác biệt nằm ở các phần kết nối</h2><span class="source">Đề xuất ưu tiên lại</span></div><p>Không đặt mục tiêu mỗi module đều là một đóng góp mới. Hướng ưu tiên là kết nối bài giấy và online với cá nhân hóa có giải thích, trên một quy trình có thể kiểm chứng.</p><div class="research-list">
+<article><span class="research-number">R1</span><div><h3>Phân phối bài phù hợp, có giải thích</h3><p>Hướng nghiên cứu ưu tiên đề xuất: năng lực theo chủ đề giúp chọn bài hiệu quả hơn phân phối cùng một bộ cho mọi người đến mức nào?</p><dl><dt>Dữ liệu</dt><dd>Câu hỏi có nhãn độ khó, chuẩn đầu ra; lịch sử kết quả đã xác nhận từ cả giấy và online.</dd><dt>Đánh giá</dt><dd>So với cách giao bài cố định: tiến bộ trên bài kiểm tra chung, độ bao phủ nội dung, tỷ lệ hoàn thành và đánh giá độ phù hợp của giảng viên. Chưa kết luận hiệu quả trước pilot.</dd></dl></div></article>
+<article><span class="research-number">R2</span><div><h3>Từ phiếu giấy đến kết quả đáng tin cậy</h3><p>Hướng kỹ thuật cần đánh giá: nhận diện tốt và biết khi nào phải chuyển cho con người kiểm tra.</p><dl><dt>Đánh giá</dt><dd>Độ chính xác theo ô và toàn phiếu; tỷ lệ chuyển review; sai sót sau xác nhận; thời gian chấm so với thủ công trên cùng bộ bài.</dd><dt>Điểm kết nối</dt><dd>Ánh xạ đúng mã đề, giữ ảnh nguồn và lịch sử sửa; kết quả được đưa vào cùng hồ sơ với bài online.</dd></dl></div></article>
+<article><span class="research-number">R3</span><div><h3>Ngân hàng câu hỏi tự cải thiện qua dữ liệu</h3><p>Đối chiếu độ khó dự kiến với thực nghiệm, phát hiện phương án nhiễu yếu và kiểm tra tính khả thi của blueprint.</p><dl><dt>Đánh giá</dt><dd>Đồng thuận với giảng viên, tỷ lệ cảnh báo hữu ích và độ lệch blueprint. Phân tích theo nhóm và phiên bản, tránh đánh đồng dữ liệu của các nhóm năng lực khác nhau.</dd><dt>Mở rộng có điều kiện</dt><dd>Gắn nhãn kiểu hiểu sai cho đáp án nhiễu để phản hồi cụ thể; giảng viên duyệt nhãn, không suy diễn từ một lần trả lời sai.</dd></dl></div></article></div>
+<div class="boundary"><h3>Giữ lại định hướng từ đặc tả gốc</h3><p>Sinh câu hỏi bám nguồn (RAG), đề tương đương và phân tích chất lượng vẫn có trong danh mục. Với phạm vi mới, nhóm cần chọn độ sâu cho từng hướng; không mặc định thực hiện tất cả ở mức nghiên cứu chuyên sâu.</p></div><p class="caption">OMR và phiếu tùy chỉnh đã tồn tại, chẳng hạn <a href="https://www.zipgrade.com/forms/">ZipGrade</a>. Tính mới và hiệu quả của cách kết hợp trong đồ án vẫn cần nghiên cứu đối chứng.</p></section>
+<section id="scope"><div class="section-title"><h2>Phạm vi và thứ tự triển khai</h2><span class="source">Khuyến nghị v0.2</span></div><p>Chấm bài giấy và phân phối bài theo năng lực là yêu cầu mới đã ghi nhận. Các giai đoạn bên dưới là khuyến nghị triển khai để nhóm chốt, không biểu thị đã hoàn thành.</p>
+<div class="scope-block"><h3><span class="badge mvp">MVP</span> Nền tảng đánh giá có kiểm soát</h3><p>Học phần, lớp, tài liệu, chuẩn đầu ra, ngân hàng câu hỏi có độ khó do giáo viên gán, import, blueprint, tạo đề, thi online, chấm tự động và kết quả. Làm cùng từ đầu: phân quyền theo lớp, khóa phiên bản đề, biên nhận, audit sửa điểm và lịch công bố đáp án.</p></div>
+<div class="scope-block"><h3><span class="badge advanced">Nâng cao</span> Hai luồng nổi bật và quyền xem lại</h3><p>Thiết kế phiếu theo mẫu, scan điện thoại, kiểm tra ô mờ và lưu bằng chứng; hồ sơ năng lực theo chủ đề, giao bài giữa các lần luyện tập, giải thích và đánh giá lại. Bổ sung phúc khảo, rubric, item analysis và duyệt độc lập cho thay đổi nhạy cảm.</p></div>
+<div class="scope-block"><h3><span class="badge pending">Chọn lọc</span> Đầu tư nghiên cứu theo nguồn lực</h3><p>RAG có trích dẫn, kiểm định câu hỏi, sinh mã đề tương đương và Question Health. Chọn hướng đánh giá sâu theo dữ liệu, thời gian và tiêu chí bảo vệ đồ án.</p></div>
+<div class="scope-block"><h3><span class="badge stretch">Mở rộng</span> Sau khi luồng chính ổn định</h3><p>Thích ứng từng câu, hiệu chuẩn thang năng lực để so sánh đề khác độ khó, AI chấm tự luận, gom nhóm đáp án và chia sẻ cấp cơ sở. Gợi ý nội dung học trước hết bám tài liệu học phần.</p></div>
+<div class="boundary"><h3>Ngoài phạm vi hiện tại</h3><p>LMS đầy đủ, quản trị trường học, mạng xã hội, coding judge hoàn chỉnh, giám sát video trực tiếp, đọc mọi chữ viết tay và trình thiết kế phiếu kéo thả hoàn toàn tự do. Không tự kết luận gian lận từ tín hiệu trình duyệt.</p></div></section>
+<section id="team"><div class="section-title"><h2>Nhóm bắt đầu research từ đâu?</h2><span class="source">§73–80, 122</span></div><p>Đề xuất điều chỉnh 5 miền nghiên cứu theo vòng đời mới. Chưa gắn tên thành viên; mỗi miền cần ghi rõ dữ liệu vào, dữ liệu ra và quyền truy cập khi bàn giao.</p><div class="table-wrap"><table><thead><tr><th>Miền nghiên cứu</th><th>Đầu ra cần có</th></tr></thead><tbody><tr><td>Nội dung & câu hỏi</td><td>Metadata, nhãn độ khó, versioning, import, chất lượng câu hỏi và phạm vi RAG.</td></tr><tr><td>Blueprint & tổ chức thi</td><td>Kiểm tra đủ câu, sinh đề, khóa mã đề, bài online, phục hồi và biên nhận.</td></tr><tr><td>Phiếu giấy & OMR</td><td>Mẫu in, căn chỉnh ảnh, đọc ô tô, ánh xạ mã đề, review ảnh và bộ dữ liệu kiểm chứng.</td></tr><tr><td>Phân tích & cá nhân hóa</td><td>Mastery theo chủ đề, phân phối bài, giải thích, hiểu sai và đánh giá lại tiến bộ.</td></tr><tr><td>Minh bạch & kiểm soát</td><td>Ma trận quyền, workflow duyệt, audit, sửa điểm, phúc khảo, riêng tư và tiêu chí NFR; phối hợp với cả 4 miền.</td></tr></tbody></table></div><div class="assignment"><strong>Đầu việc chung cho mỗi thành viên</strong><p>Tìm ít nhất 5 sản phẩm / bài báo, 10 tính năng và đề xuất 3 tính năng nên giữ, kèm hướng đóng góp nghiên cứu và nguồn tham khảo.</p></div><details class="template"><summary>Mẫu ghi nhận một tính năng <span>+</span></summary><p>Tên tính năng · Vấn đề · Người dùng · Giải pháp hiện có · Hạn chế · Đề xuất · Workflow · Dữ liệu cần có · Có cần AI? · Độ phức tạp · Giá trị nghiên cứu · Giá trị người dùng · Khả thi MVP · Quyền thao tác · Bằng chứng cần lưu · Tiêu chí kiểm chứng · Rủi ro · Nguồn tham khảo.</p></details><p class="caption">Sau research: workshop chọn tính năng → chốt scope → duyệt proposal → đặc tả yêu cầu → kiến trúc → prototype → MVP → đánh giá.</p></section>
+<section id="decisions"><div class="section-title"><h2>Những quyết định còn mở</h2><span class="source">Cần nhóm chốt</span></div><p>Hướng sản phẩm đã rõ hơn; cần giới hạn triển khai và tiêu chí đánh giá trước khi lập trình.</p><div class="decision-list">
+<details><summary>Phiếu giấy & scan <span class="badge pending">Cần quyết định</span></summary><ul><li>Bản đầu hỗ trợ bao nhiêu câu, bao nhiêu phương án và khổ giấy nào?</li><li>Chỉ chụp từng phiếu hay nhận cả tập ảnh? Có cần xử lý offline?</li><li>Dùng camera web trên điện thoại hay ứng dụng riêng?</li><li>Chỉ single choice hay cả multi-select? Quy tắc ô trống / tô nhiều ô là gì?</li><li>Ngưỡng ảnh đủ chất lượng và ngưỡng chuyển review được chọn bằng bộ dữ liệu nào?</li></ul></details>
+<details><summary>Cá nhân hóa & công bằng <span class="badge pending">Cần research</span></summary><ul><li>Chốt dùng trước cho luyện tập; nếu tính điểm chính thức thì hiệu chỉnh và đối chiếu như thế nào?</li><li>Dữ liệu tối thiểu, thời hạn lịch sử và mô hình mastery nào phù hợp?</li><li>Tỷ lệ độ khó, giới hạn câu lặp và xử lý thiếu câu ra sao?</li><li>So sánh với bài cố định bằng metric, nhóm pilot và bài kiểm tra chung nào?</li></ul></details>
+<details><summary>Phê duyệt, phúc khảo & riêng tư <span class="badge pending">Cần quyết định</span></summary><ul><li>Ai duyệt đề, duyệt sửa điểm và xử lý phúc khảo? Lớp chỉ có một giảng viên áp dụng quy tắc nào?</li><li>Hạn phúc khảo và thời điểm công bố ảnh / đáp án?</li><li>Lưu bài làm, ảnh và audit bao lâu; xử lý yêu cầu xóa khi còn tranh chấp?</li><li>Nhật ký cần chống sửa ở mức ứng dụng hay bao gồm quản trị hạ tầng? Ai được kiểm tra?</li><li>Những sự kiện integrity nào thực sự cần thu thập?</li></ul></details>
+<details><summary>Kiến trúc & phạm vi còn lại <span class="badge pending">Cần quyết định</span></summary><ul><li>Node / NestJS hay Java / Spring? Có cần multi-tenant trong MVP?</li><li>Loại câu hỏi và định dạng tài liệu nào làm trước? Có cần tích hợp LMS?</li><li>AI provider, self-host và chính sách dữ liệu nào? Có giữ AI grading?</li><li>Thuật toán đề tương đương, metric item analysis và bộ dữ liệu đánh giá?</li></ul><p>Gợi ý kiến trúc chưa chốt: Web → Backend API → dịch vụ OMR / AI / phân tích; PostgreSQL và object storage. Máy chủ thực thi phân quyền, thời hạn và trạng thái nghiệp vụ; giao diện không phải ranh giới bảo mật.</p></details></div></section>
+<footer><span>Intelligent Assessment Platform · Tài liệu làm việc</span><a href="proposal-spec.md">Đọc bản đặc tả đầy đủ ↗</a><p>v0.2 · Cập nhật 22/09/2026. Số § đối chiếu đặc tả gốc; nhãn “Bổ sung” chỉ yêu cầu mới và đề xuất thảo luận. Ví dụ không phải kết quả thực nghiệm. <a href="revision-notes.md">Xem ghi chú thay đổi</a>.</p></footer>
+</main><aside class="right-rail"><div class="rail-sticky"><p>Trên trang này</p><a href="#overview">Tổng quan</a><a href="#workflow">Vòng đời đánh giá</a><a href="#roles">Người dùng</a><a href="#foundation">20 module tính năng</a><a href="#paper">Phiếu giấy & scan</a><a href="#personalization">Phân phối bài phù hợp</a><a href="#trust">Minh bạch nghiệp vụ</a><a href="#requirements">FR / NFR & kiểm chứng</a><a href="#research">Trọng tâm nghiên cứu</a><a href="#scope">Phạm vi đề xuất</a><a href="#team">Nghiên cứu cùng nhóm</a><a href="#decisions">Câu hỏi cần chốt</a><div class="reading-note"><span>Gợi ý đọc</span><p>Đọc vòng đời, hai hình thức làm bài và lớp minh bạch trước. Sau đó mở module thuộc miền research của bạn.</p></div><div class="legend"><span>Phạm vi triển khai</span><p><i class="dot mvp-dot"></i>MVP</p><p><i class="dot advanced-dot"></i>Nâng cao</p><p><i class="dot stretch-dot"></i>Mở rộng</p><small>Tất cả đang ở mức đề xuất.</small></div></div></aside></div>
+</div><script src="app.js"></script>
+</body></html>
